@@ -1,8 +1,8 @@
 package electricity.billing.system;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 
 public class Login extends JFrame implements ActionListener{
     
@@ -73,6 +73,7 @@ public class Login extends JFrame implements ActionListener{
         setSize(640, 300);
         setLocation(400, 200);
         setVisible(true);
+        
     }
     
     @Override
