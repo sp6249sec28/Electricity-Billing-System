@@ -8,6 +8,8 @@ import java.awt.event.*;
 public class Signup extends JFrame implements ActionListener{
     
     JButton create, back;
+    Choice accountType;
+    JTextField meter, username, name, password;
     Signup(){
         setSize(700, 400);
         setLocation(450, 150);
@@ -24,55 +26,60 @@ public class Signup extends JFrame implements ActionListener{
         panel.setForeground(new Color(34, 139, 34));
         add(panel);
         
-        JLabel heading = new JLabel("Create Account");
+        //Create Account Dropdown
+        JLabel heading = new JLabel("Create Account As");
         heading.setBounds(100, 50, 140, 20);
         heading.setForeground(Color.GRAY);
         heading.setFont(new Font("Tahoma", Font.BOLD, 14));
         panel.add(heading);
         
-        Choice accountType = new Choice();
+        accountType = new Choice();
         accountType.add("Admin");
         accountType.add("Customer");
         accountType.setBounds(260, 50, 150, 20);
         panel.add(accountType);
         
-        JLabel lblmeter = new JLabel("Create Account");
+        //Meter Number
+        JLabel lblmeter = new JLabel("Meter Number");
         lblmeter.setBounds(100, 90, 140, 20);
         lblmeter.setForeground(Color.GRAY);
         lblmeter.setFont(new Font("Tahoma", Font.BOLD, 14));
         panel.add(lblmeter);
         
-        JTextField meter = new JTextField();
+        meter = new JTextField();
         meter.setBounds(260, 90, 150, 20);
         panel.add(meter);
         
-        JLabel lblusermeter = new JLabel("Create Account");
-        lblusermeter.setBounds(100, 90, 140, 20);
-        lblusermeter.setForeground(Color.GRAY);
-        lblusermeter.setFont(new Font("Tahoma", Font.BOLD, 14));
-        panel.add(lblusermeter);
+        //Username
+        JLabel lblusername = new JLabel("Username");
+        lblusername.setBounds(100, 130, 140, 20);
+        lblusername.setForeground(Color.GRAY);
+        lblusername.setFont(new Font("Tahoma", Font.BOLD, 14));
+        panel.add(lblusername);
         
-        JTextField usermeter = new JTextField();
-        meter.setBounds(260, 130, 150, 20);
-        panel.add(usermeter);
+        username = new JTextField();
+        username.setBounds(260, 130, 150, 20);
+        panel.add(username);
         
-        JLabel lblname = new JLabel("Create Account");
+        //Name
+        JLabel lblname = new JLabel("Name");
         lblname.setBounds(100, 170, 140, 20);
         lblname.setForeground(Color.GRAY);
         lblname.setFont(new Font("Tahoma", Font.BOLD, 14));
         panel.add(lblname);
         
-        JTextField name = new JTextField();
+        name = new JTextField();
         name.setBounds(260, 170, 150, 20);
         panel.add(name);
         
-        JLabel lblpassword = new JLabel("Create Account");
+        //Password
+        JLabel lblpassword = new JLabel("Password");
         lblpassword.setBounds(100, 210, 140, 20);
         lblpassword.setForeground(Color.GRAY);
         lblpassword.setFont(new Font("Tahoma", Font.BOLD, 14));
         panel.add(lblpassword);
         
-        JTextField password = new JTextField();
+        password = new JTextField();
         password.setBounds(260, 210, 150, 20);
         panel.add(password);
         
@@ -100,10 +107,30 @@ public class Signup extends JFrame implements ActionListener{
         setVisible(true);
     }
     
-    public void actionPerformed(ActionEvent e){
-        if (e.getSource() == create){
+    public void actionPerformed(ActionEvent ac){
+        if (ac.getSource() == create){
+            String atype = accountType.getSelectedItem();
+            String susername = username.getText();
+            String sname = name.getText();
+            String spassword = password.getText();
+            String smeter = meter.getText();
             
-        }else if(e.getSource() == back){
+            try{
+                Conn c = new Conn();
+                String query = "insert into login values('"+smeter+"', '"+susername+"',"
+                        + " '"+sname+"', '"+spassword+"', '"+atype+"')";
+                
+                c.s.executeUpdate(query);
+                
+                JOptionPane.showMessageDialog(null, "Account Created Successfully");
+                
+                setVisible(false);
+                new Login();
+                
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }else if(ac.getSource() == back){
             setVisible(false);
             
             new Login();
