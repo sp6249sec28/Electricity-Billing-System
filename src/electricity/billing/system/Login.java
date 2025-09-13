@@ -97,6 +97,8 @@ public class Login extends JFrame implements ActionListener{
                     new Project();
                 } else{
                     JOptionPane.showMessageDialog(null, "Invalid Login");
+                    
+                    //Empty the text fields after invalid login
                     username.setText("");
                     password.setText("");
                 }
