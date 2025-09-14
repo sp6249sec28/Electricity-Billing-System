@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.*;
 
 public class Signup extends JFrame implements ActionListener{
     
@@ -44,11 +45,14 @@ public class Signup extends JFrame implements ActionListener{
         lblmeter.setBounds(100, 90, 140, 20);
         lblmeter.setForeground(Color.GRAY);
         lblmeter.setFont(new Font("Tahoma", Font.BOLD, 14));
+        lblmeter.setVisible(false);
         panel.add(lblmeter);
         
         meter = new JTextField();
         meter.setBounds(260, 90, 150, 20);
+        meter.setVisible(false);
         panel.add(meter);
+        
         
         //Username
         JLabel lblusername = new JLabel("Username");
@@ -60,6 +64,25 @@ public class Signup extends JFrame implements ActionListener{
         username = new JTextField();
         username.setBounds(260, 130, 150, 20);
         panel.add(username);
+        
+        meter.addFocusListener(new FocusListener(){
+            @Override
+            public void focusGained(FocusEvent fe){}
+            
+            @Override
+            public void focusLost(FocusEvent fe){
+                try{
+                    Conn c = new Conn();
+                    ResultSet rs = c.s.executeQuery("select * from login where meter_no = '"+meter.getText()+"'");
+                    
+                    while(rs.next()){
+                        name.setText(rs.getString("name"));
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
         
         //Name
         JLabel lblname = new JLabel("Name");
@@ -83,6 +106,21 @@ public class Signup extends JFrame implements ActionListener{
         password.setBounds(260, 210, 150, 20);
         panel.add(password);
         
+        accountType.addItemListener(new ItemListener(){
+            public void itemStateChanged(ItemEvent ae){
+                String user = accountType.getSelectedItem();
+                if(user.equals("Customer")){
+                    lblmeter.setVisible(true);
+                    meter.setVisible(true);
+                    name.setEditable(false);
+                } else{
+                    lblmeter.setVisible(false);
+                    meter.setVisible(false);
+                    name.setEditable(true);
+                }
+            }
+        });
+                
         create = new JButton("Create");
         create.setBackground(Color.BLACK);
         create.setForeground(Color.WHITE);
@@ -117,8 +155,14 @@ public class Signup extends JFrame implements ActionListener{
             
             try{
                 Conn c = new Conn();
-                String query = "insert into login values('"+smeter+"', '"+susername+"',"
+                
+                String query = null;
+                if (atype.equals("Admin")){
+                    query = "insert into login values('"+smeter+"', '"+susername+"',"
                         + " '"+sname+"', '"+spassword+"', '"+atype+"')";
+                } else{
+                    query = "update login set username = '"+susername+"', password = '"+spassword+"', user = '"+atype+"' where meter_no = '"+smeter+"'";
+                }
                 
                 c.s.executeUpdate(query);
                 

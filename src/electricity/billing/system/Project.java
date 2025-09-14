@@ -7,7 +7,10 @@ import java.awt.event.*;
 
 public class Project extends JFrame implements ActionListener{
     
-   Project(){
+   String atype, meter;
+   Project(String atype, String meter){
+       this.atype = atype;
+       this.meter = meter;
        setExtendedState(JFrame.MAXIMIZED_BOTH);
        
        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icon/elect1.jpg"));
@@ -21,7 +24,7 @@ public class Project extends JFrame implements ActionListener{
        
        JMenu master = new JMenu("Master");
        master.setForeground(Color.BLUE);
-       mb.add(master);
+       
        
        JMenuItem newcustomer = new JMenuItem("New Customer");
        newcustomer.setFont(new Font("monospaced", Font.PLAIN, 12));
@@ -69,7 +72,7 @@ public class Project extends JFrame implements ActionListener{
        
        JMenu info = new JMenu("Information");
        info.setForeground(Color.RED);
-       mb.add(info);
+       
        
        JMenuItem updateinfo = new JMenuItem("Update Information");
        updateinfo.setFont(new Font("monospaced", Font.PLAIN, 12));
@@ -78,6 +81,7 @@ public class Project extends JFrame implements ActionListener{
        Image image5 = icon5.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
        updateinfo.setIcon(new ImageIcon(image5));
        updateinfo.setMnemonic('U');
+       updateinfo.addActionListener(this);
        updateinfo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, ActionEvent.CTRL_MASK));
        info.add(updateinfo);
        
@@ -88,12 +92,13 @@ public class Project extends JFrame implements ActionListener{
        Image image6 = icon6.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
        viewinfo.setIcon(new ImageIcon(image6));
        viewinfo.setMnemonic('V');
+       viewinfo.addActionListener(this);
        viewinfo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK));
        info.add(viewinfo);
        
        JMenu user = new JMenu("User");
        user.setForeground(Color.BLUE);
-       mb.add(user);
+       
        
        JMenuItem paybill = new JMenuItem("Pay Bill");
        paybill.setFont(new Font("monospaced", Font.PLAIN, 12));
@@ -117,7 +122,7 @@ public class Project extends JFrame implements ActionListener{
        
        JMenu report = new JMenu("Report");
        report.setForeground(Color.RED);
-       mb.add(report);
+       
        
        JMenuItem generatebill = new JMenuItem("Pay Bill");
        generatebill.setFont(new Font("monospaced", Font.PLAIN, 12));
@@ -131,7 +136,7 @@ public class Project extends JFrame implements ActionListener{
        
        JMenu utility = new JMenu("Utility");
        utility.setForeground(Color.BLUE);
-       mb.add(utility);
+       
        
        JMenuItem notepad = new JMenuItem("NotePad");
        notepad.setFont(new Font("monospaced", Font.PLAIN, 12));
@@ -155,17 +160,27 @@ public class Project extends JFrame implements ActionListener{
        
        JMenu mexit = new JMenu("Exit");
        mexit.setForeground(Color.RED);
-       mb.add(mexit);
+       
        
        JMenuItem exit = new JMenuItem("Exit");
        exit.setFont(new Font("monospaced", Font.PLAIN, 12));
        exit.setBackground(Color.WHITE);
        ImageIcon icon12 = new ImageIcon(ClassLoader.getSystemResource("icon/icon11.png"));
        Image image12 = icon12.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
-       exit.setIcon(new ImageIcon(image10));
+       exit.setIcon(new ImageIcon(image12));
        exit.setMnemonic('X');
        exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
        mexit.add(exit);
+       
+       if(atype.equals("Admin")){
+            mb.add(master);
+       } else {
+            mb.add(info);
+            mb.add(user);
+            mb.add(report);
+       }
+       mb.add(utility);
+       mb.add(mexit);
        
        setLayout(new FlowLayout());
        
@@ -183,9 +198,13 @@ public class Project extends JFrame implements ActionListener{
            new DepositDetails();
        } else if (msg.equals("Calculate Bill")){
            new CalculateBill();
+       } else if(msg.equals("View Information")){
+           new ViewInformation(meter);
+       } else if(msg.equals("Update Information")){
+           new UpdateInformation(meter);
        }
    }
    public static void main(String[] args){
-       new Project();
+       new Project("", "");
    } 
 }
