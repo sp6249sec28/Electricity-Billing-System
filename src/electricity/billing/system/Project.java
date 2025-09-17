@@ -105,6 +105,7 @@ public class Project extends JFrame implements ActionListener {
         Image image7 = icon7.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT);
         paybill.setIcon(new ImageIcon(image7));
         paybill.setMnemonic('P');
+        paybill.addActionListener(this);
         paybill.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
         user.add(paybill);
 
@@ -122,7 +123,7 @@ public class Project extends JFrame implements ActionListener {
         JMenu report = new JMenu("Report");
         report.setForeground(Color.RED);
 
-        JMenuItem generatebill = new JMenuItem("Pay Bill");
+        JMenuItem generatebill = new JMenuItem("Generate Bill");
         generatebill.setFont(new Font("monospaced", Font.PLAIN, 12));
         generatebill.setBackground(Color.WHITE);
         ImageIcon icon9 = new ImageIcon(ClassLoader.getSystemResource("icon/icon7.png"));
@@ -223,6 +224,8 @@ public class Project extends JFrame implements ActionListener {
         } else if (msg.equals("Exit")){
             setVisible(false);
             new Login();
+        } else if (msg.equals("Pay Bill")){
+            new PayBill(meter);
         }
     }
 
