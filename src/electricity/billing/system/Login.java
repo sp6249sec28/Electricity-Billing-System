@@ -66,6 +66,7 @@ public class Login extends JFrame implements ActionListener{
         signup.addActionListener(this);
         add(signup);
         
+        
         ImageIcon i7 = new ImageIcon(ClassLoader.getSystemResource("icon/second.jpg"));
         Image i8 = i7.getImage().getScaledInstance(250, 250, Image.SCALE_DEFAULT);
         ImageIcon i9 = new ImageIcon(i8);
